@@ -1,0 +1,22 @@
+{
+    "Electrónica": {
+        "nombre": "Teléfono",
+        "precio": 12000.0,
+        "stock": 12
+    },
+    "Oro": {
+        "nombre": "Arete",
+        "precio": 15000.0,
+        "stock": 1
+    },
+    "1111": {
+        "nombre": "Automóvil",
+        "precio": 250.0,
+        "stock": 1
+    },
+    "1212": {
+        "nombre": "Zapatos",
+        "precio": 400.0,
+        "stock": 30
+    }
+}
