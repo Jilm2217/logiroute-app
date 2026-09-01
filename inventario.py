@@ -4,7 +4,6 @@ import os
 class Inventario:
     def __init__(self, archivo_persistencia="inventario.json"):
         self.archivo_persistencia = archivo_persistencia
-        # Estructura principal: Diccionario (Tabla Hash) cargado desde disco
         self.productos = self.cargar_datos()
 
     def cargar_datos(self):
@@ -18,7 +17,7 @@ class Inventario:
         return {}
 
     def guardar_datos(self):
-        """Guarda el diccionario actual en el archivo JSON para que no se pierdan los datos."""
+        """Guarda el diccionario actual en el archivo JSON."""
         try:
             with open(self.archivo_persistencia, "w", encoding="utf-8") as archivo:
                 json.dump(self.productos, archivo, indent=4, ensure_ascii=False)
@@ -26,7 +25,7 @@ class Inventario:
             print(f"Error al guardar los datos: {e}")
 
     def agregar_producto(self, sku, nombre, precio, stock):
-        """Agrega un nuevo producto al inventario y lo guarda en disco de forma persistente."""
+        """Agrega un nuevo producto al inventario y lo guarda en disco."""
         if sku in self.productos:
             return f"Error: El producto con SKU {sku} ya existe."
         
@@ -35,8 +34,17 @@ class Inventario:
             "precio": float(precio),
             "stock": int(stock)
         }
-        self.guardar_datos() # Guardado automático
+        self.guardar_datos()
         return f"Éxito: Producto '{nombre}' agregado y guardado correctamente."
+
+    def eliminar_producto(self, sku):
+        """Elimina un producto del inventario usando su SKU y actualiza el archivo JSON."""
+        if sku in self.productos:
+            nombre_eliminado = self.productos[sku]["nombre"]
+            del self.productos[sku]
+            self.guardar_datos()
+            return f"Éxito: Producto '{nombre_eliminado}' (SKU: {sku}) eliminado correctamente."
+        return f"Aviso: No se encontró ningún producto con el SKU {sku}."
 
     def consultar_producto(self, sku):
         """Busca un producto por su SKU utilizando acceso directo por clave O(1)."""

@@ -25,7 +25,7 @@ class GestorRutas:
             print(f"Error al guardar rutas: {e}")
 
     def agregar_destino(self, cliente, direccion, distancia_km):
-        """Agrega un punto de entrega con su respectiva distancia desde el almacén."""
+        """Agrega un punto de entrega con su respectiva distancia."""
         nuevo_punto = {
             "cliente": cliente,
             "direccion": direccion,
@@ -35,14 +35,17 @@ class GestorRutas:
         self.guardar_datos()
         return f"Destino para '{cliente}' agregado exitosamente."
 
+    def eliminar_destino(self, index):
+        """Elimina un destino de la lista por su índice y actualiza el archivo JSON."""
+        if 0 <= index < len(self.destinos):
+            eliminado = self.destinos.pop(index)
+            self.guardar_datos()
+            return f"Éxito: Destino para '{eliminado['cliente']}' eliminado correctamente."
+        return "Error: Índice de destino inválido."
+
     def calcular_ruta_optima(self):
-        """
-        Aplica un principio básico de ordenamiento por cercanía (algoritmo greedy simple) 
-        para simular la optimización de entregas de menor a mayor distancia.
-        """
+        """Ordena los destinos de menor a mayor distancia."""
         if not self.destinos:
             return []
-        
-        # Ordenamos los destinos de menor a mayor distancia (Simulando optimización de ruta)
         ruta_optima = sorted(self.destinos, key=lambda x: x["distancia_km"])
         return ruta_optima
